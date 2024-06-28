@@ -19,6 +19,7 @@ double v;
 
 double grad(double val){
    
+    
     double gradient=-4*pow(val,3) -2;
     return gradient;
 }
@@ -54,8 +55,8 @@ int main()
 {
     struct parameters params;
     struct parameters params_;
-
-FILE *file = fopen("values.txt", "r");
+    
+FILE *file = fopen("parameters.txt", "r");
 fscanf(file,"%d",&params.iteration);
 fscanf(file,"%lf",&params.learning_rate);
 fscanf(file,"%lf",&params.beta_1);
