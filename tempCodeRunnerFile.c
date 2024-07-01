@@ -1,91 +1,81 @@
 #include <stdio.h>
-
-#include <math.h>
-#include <stdlib.h>
+#include<math.h>
 
 
-struct parameters{
-int iteration;
-double theta;
-double learning_rate;
-double beta_1;
-double beta_2;
-double epsilon;
-double m;
-double v;
-//double moment_2;
+struct node{
+    struct node* prev[10]; //array of address of structs
+    double val;
+    struct node* next[10]; //array of address of structs
 };
 
+double mul(double a,double b){
+    return a*b;
+}
 
-double grad(double val){
-   
+double add(double a, double b){
+    return a+b;
+}
+double dif(double a, double b){
+    return a-b;
+}
+double divide(double a, double b){
+    return a/b;
+}
+
+void backpropogation(){
+
+}
+
+void forwardpropogation(){
+
+}
+ 
+
+void calc(){
+// (x^4) - 2x - 3
+    struct node n1,n2,n3,n4,n5,n6;
+    int x=0;
+
+    n1.prev[0]=NULL;
+    n1.val=x;
+    n1.next[0]=&n2;// one node to n2, one to n3
+    n1.next[1]=&n3;
     
-    double gradient=4*pow(val,3) -2;
-    return gradient;
-}
+    n2.prev[0]=&n1;
+    n2.val=pow((n2.prev[0])->val,4);
+    n2.next[0]=&n5;
 
-double y(double x){
-    return pow(x,4)-(2*x)-3;
-}
-struct parameters calc_theta(struct parameters params){
-   
-    params.iteration+=1;
-    params.m= (params.beta_1*params.m)+(1-params.beta_1)*grad(params.theta);
-   
-    params.v=(params.beta_2*params.v)+(1-params.beta_2)*pow(grad(params.theta),2.0);
-   
-    double m1_hat=params.m/(1-pow(params.beta_1,params.iteration));
-
-    double v1_hat=params.v/(1-pow(params.beta_2,params.iteration));
-
-    params.theta= params.theta-(params.learning_rate*(m1_hat/(pow(v1_hat,0.5)+params.epsilon)));
-   
-    //printf("%lf\n",params.m);
-    //printf("%lf\n",params.v);
-    //printf("%lf\n",m1_hat);
-    //printf("%lf\n",v1_hat);
-    //printf("%lf\n",params.theta);
-
-    return params;
-}
-
-
-
-int main() 
-{
-    struct parameters params;
-    struct parameters params_;
+    n3.prev[0]=&n1;
+    n3.val=mul(2,(n3.prev[0])->val);
+    n3.next[0]=&n5;
     
-FILE *file = fopen("parameters.txt", "r");
-fscanf(file,"%d",&params.iteration);
-fscanf(file,"%lf",&params.learning_rate);
-fscanf(file,"%lf",&params.beta_1);
-fscanf(file,"%lf",&params.beta_2);
-params.epsilon=pow(10,-8);
-fscanf(file,"%lf",&params.m);
-fscanf(file,"%lf",&params.v);
+    n4.prev[0]=NULL;
+    n4.val=3;
+    n4.next[0]=&n5;
+    
+    n5.prev[0]=&n2;
+    n5.prev[1]=&n3;
+    n5.val=dif((n5.prev[0])->val, (n5.prev[1])->val);
+    n5.next[0]=&n6;
+
+    n6.prev[0]=&n5;
+    n6.prev[1]=&n4;
+    n6.val=dif(n6.prev[0]->val,n6.prev[1]->val);
 
 
-    //printf("%lf",params.learning_rate);
-    //printf("%lf",grad(0.5));
-    //printf("%lf",calc_theta(1.0,0,0,0.9,0.999,1,pow(10,-8),0.1));
-   
-    for(int i=0;i<1000;i++){
-       
-        printf("x=%lf y=%lf\n",params.theta,y(params.theta));
-        params_=calc_theta(params);
-        params.iteration=params_.iteration;
-        params.theta=params_.theta;
-        params.learning_rate=params_.learning_rate;
-        params.beta_1=params_.beta_1;
-        params.beta_2=params_.beta_2;
-        params.epsilon=params_.epsilon;
-        params.m=params_.m;
-        params.v=params_.v;
-        params=params_;
-        //printf("%lf\n",params.theta);
+    //printf("%lf",n5.val);
+    
+    
+    struct node nodes[10]={n1,n2,n3,n4,n5,n6};
+    printf("%lf",nodes[5].val);
 
-    }
-    //printf("%lf",calc_theta(params).theta);
+}
+
+
+ 
+ int main(){
+
+    calc();
+
     return 0;
-}
+ }
