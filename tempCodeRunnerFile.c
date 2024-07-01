@@ -31,10 +31,10 @@ void forwardpropogation(){
 }
  
 
-void calc(){
+void calc(double x){
 // (x^4) - 2x - 3
     struct node n1,n2,n3,n4,n5,n6;
-    int x=0;
+    //int x=0;
 
     n1.prev[0]=NULL;
     n1.val=x;
@@ -67,15 +67,17 @@ void calc(){
     
     
     struct node nodes[10]={n1,n2,n3,n4,n5,n6};
-    printf("%lf",nodes[5].val);
+    printf("x=%lf, y=%lf\n",x,nodes[5].val);
 
 }
 
 
  
  int main(){
+    for(int x=-1;x<3;){
 
-    calc();
-
+        x=x+0.1;
+    calc(x);
+}
     return 0;
  }
