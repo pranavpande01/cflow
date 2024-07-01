@@ -20,12 +20,12 @@ double v;
 double grad(double val){
    
     
-    double gradient=-4*pow(val,3) -2;
+    double gradient=4*pow(val,3) -2;
     return gradient;
 }
 
 double y(double x){
-    return -pow(x,4)-(2*x)-3;
+    return pow(x,4)-(2*x)-3;
 }
 struct parameters calc_theta(struct parameters params){
    
@@ -51,7 +51,7 @@ struct parameters calc_theta(struct parameters params){
 
 
 
-int main()
+int main() 
 {
     struct parameters params;
     struct parameters params_;
@@ -70,7 +70,7 @@ fscanf(file,"%lf",&params.v);
     //printf("%lf",grad(0.5));
     //printf("%lf",calc_theta(1.0,0,0,0.9,0.999,1,pow(10,-8),0.1));
    
-    for(int i=0;i<50;i++){
+    for(int i=0;i<1000;i++){
        
         printf("x=%lf y=%lf\n",params.theta,y(params.theta));
         params_=calc_theta(params);
