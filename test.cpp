@@ -11,12 +11,15 @@ char eq[]="(((1)+((x)^(4)))-(((2)*(x))-(3)))";
 
 
 struct node
-{
-    
+{   
+    struct node* parent;
+    vector<int> pair;
+    vector<struct node*> children;
 };
 
 class Stack {
     int top;
+
 
 public:
     int a[MAX]; // Maximum size of Stack
@@ -102,8 +105,25 @@ int main()
 {
     vector<vector<int>> pairs=re(0);
     int len=pairs.size();
+  /*
 for(int i=0;i<len;i++){
     cout<<pairs[i][0]<<"-"<<pairs[i][1]<<"\n";
     }
+
+    */
+
+    vector<struct  node> graph;
+  
+for(int i=0;i<len;i++){
+    struct node temp={NULL, pairs[i],{NULL}};
+    vector<struct node> temp_={temp};
+    graph.insert(graph.end(),temp_.begin(),temp_.end());
+    }
+    
+for(int i=0;i<len;i++){
+    cout<<graph[i].parent<<"\n";
+    }
+    
+
     return 0;
 }
