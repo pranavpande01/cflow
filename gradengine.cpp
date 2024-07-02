@@ -156,6 +156,13 @@ vector<struct node> makeHeirarachyGraph(){
 
     }
 
+    //cleaning
+    for(int i=0;i<graph.size();i++){
+        //auto index=find(graph[i].children.begin(),graph[i].children.end(),NULL);
+        if(graph[i].children.size()>1){
+            graph[i].children.erase(graph[i].children.end());
+        }
+    }
     return graph;
 }
 

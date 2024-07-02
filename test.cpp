@@ -17,6 +17,9 @@ struct node
     vector<struct node*> children;
 };
 
+struct treeNode{
+
+};
 void details(struct node  n){
     printf("%p",n.parent);
     cout <<" : " << n.pair[0]<<" - "<<n.pair[1]<<" : ";
@@ -94,7 +97,6 @@ vector<vector<int>> re(int index){
         else if (eq[index]==')')
         {
             temp={open.peek(),index};
-            //cout<<open.peek()<<"-"<<index<<"\n";
             temp_={temp};
             pairs.insert(pairs.end(),temp_.begin(),temp_.end());            
             open.pop();
@@ -108,37 +110,31 @@ vector<vector<int>> re(int index){
     return pairs;
 }
 
-int main()
-{
-    vector<vector<int>> pairs=re(0);
-    int len=pairs.size();
-  
+
+vector<struct node> makeHeirarachyGraph(){
     vector<struct  node> graph;
-  
-for(int i=0;i<len;i++){
-    struct node temp={NULL, pairs[i],{NULL}};
-    vector<struct node> temp_={temp};
-    graph.insert(graph.end(),temp_.begin(),temp_.end());
+    vector<vector<int>> pairs=re(0);
+
+    for(int i=0;i<pairs.size();i++){
+        struct node temp={NULL, pairs[i],{NULL}};
+        vector<struct node> temp_={temp};
+        graph.insert(graph.end(),temp_.begin(),temp_.end());
     }
 
-//sort the graph vector according to the ascending order of opening bracket index
-int flag=1;   
+    int flag=1;   
 
-while (flag==1){
-    flag=0;
-    struct node temp;
+    while (flag==1){
+        flag=0;
+        struct node temp;
 
-    for(int i=1;i<graph.size();i++){
+        for(int i=1;i<graph.size();i++){
         
             if (graph[i].pair[0]<graph[i-1].pair[0]){
                 temp=graph[i-1];
                 graph[i-1]=graph[i];
                 graph[i]=temp;
                 flag=1;
-        
                 }
-        
-        
         }
     }
    
@@ -160,13 +156,21 @@ while (flag==1){
 
     }
 
-for(int i=0;i<graph.size();i++)
-{
-     details(graph[i]);
+    return graph;
+}
 
-}   
+
+int main()
+{
+    
+    
+    vector<struct node> graph=makeHeirarachyGraph();
+    int i=0;
+    while(i<graph.size()){
+        details(graph[i]);
+        i++;
+    }
     return 0;
     
 
 }
-// This is a test

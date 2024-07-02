@@ -2,6 +2,7 @@
     "files.associations": {
         "stdio.h": "c",
         "vector": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "xutility": "cpp"
     }
 }
