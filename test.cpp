@@ -105,13 +105,7 @@ int main()
 {
     vector<vector<int>> pairs=re(0);
     int len=pairs.size();
-  /*
-for(int i=0;i<len;i++){
-    cout<<pairs[i][0]<<"-"<<pairs[i][1]<<"\n";
-    }
-
-    */
-
+  
     vector<struct  node> graph;
   
 for(int i=0;i<len;i++){
@@ -119,11 +113,30 @@ for(int i=0;i<len;i++){
     vector<struct node> temp_={temp};
     graph.insert(graph.end(),temp_.begin(),temp_.end());
     }
-    
-for(int i=0;i<len;i++){
-    cout<<graph[i].parent<<"\n";
+
+//sort the graph vector according to the ascending order of opening bracket index
+int flag=1;    
+while (flag==1){
+flag=0;
+struct node temp;
+
+    for(int i=1;i<=graph.size();i++){
+        
+            if (graph[i].pair[0]<graph[i-1].pair[0]){
+                temp=graph[i-1];
+                graph[i-1]=graph[i];
+                graph[i]=temp;
+                flag=1;
+        
+                }
+        
+        
+        }
     }
     
-
+    for(int i=0;i<graph.size();i++){
+        cout<<graph[i].pair[1]<<"\n";
+    }
+cout<<graph[0].pair[0];
     return 0;
 }
