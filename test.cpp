@@ -115,12 +115,13 @@ for(int i=0;i<len;i++){
     }
 
 //sort the graph vector according to the ascending order of opening bracket index
-int flag=1;    
-while (flag==1){
-flag=0;
-struct node temp;
+int flag=1;   
 
-    for(int i=1;i<=graph.size();i++){
+while (flag==1){
+    flag=0;
+    struct node temp;
+
+    for(int i=1;i<graph.size();i++){
         
             if (graph[i].pair[0]<graph[i-1].pair[0]){
                 temp=graph[i-1];
@@ -133,10 +134,25 @@ struct node temp;
         
         }
     }
+   
+    for(int i=0;i<graph.size();i++){
+        cout<<graph[i].pair[0]<<"-"<<graph[i].pair[1]<<"\n";
+    }
+    
     
     for(int i=0;i<graph.size();i++){
-        cout<<graph[i].pair[1]<<"\n";
+        for(int j=0;j<graph.size();j++){
+            if(graph[i].pair[0]>graph[j].pair[0] && graph[i].pair[1]<graph[j].pair[1]){
+                graph[i].parent=&graph[j];
+            }
+        }
     }
-cout<<graph[0].pair[0];
+`
+    for(int i=0;i<graph.size();i++){
+        cout<<graph[i].parent<<"   :   "<<graph[i].pair[0]<<"-"<<graph[i].pair[1]<<"   :   "<<&graph[i]<<"\n";
+    }
+
     return 0;
+    
+
 }
