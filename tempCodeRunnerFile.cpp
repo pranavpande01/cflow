@@ -7,7 +7,7 @@
 using namespace std;
 
 
-char eq[]="(((1)+((x)^(4)))-(((2)*(x))-(3)))";
+char eq[]="(((1)+((x)^(4)))-(((2)*(x))-(3))+((x)^(-1)))";
 
 
 struct node
@@ -16,6 +16,13 @@ struct node
     vector<int> pair;
     vector<struct node*> children;
 };
+
+void details(struct node  n){
+    printf("%p",n.parent);
+    cout <<" : " << n.pair[0]<<" - "<<n.pair[1]<<" : ";
+    for(int i=0;i<n.children.size();i++) cout<<n.children[i]<<" , ";
+    cout<<"\n";
+}
 
 class Stack {
     int top;
@@ -135,10 +142,6 @@ while (flag==1){
         }
     }
    
-    for(int i=0;i<graph.size();i++){
-        cout<<graph[i].pair[0]<<"-"<<graph[i].pair[1]<<"\n";
-    }
-    
     
     for(int i=0;i<graph.size();i++){
         for(int j=0;j<graph.size();j++){
@@ -146,12 +149,22 @@ while (flag==1){
                 graph[i].parent=&graph[j];
             }
         }
+        if(graph[i].parent!=NULL){
+                vector<struct node *> a={&graph[i]};
+                (graph[i].parent)->children.insert((graph[i].parent)->children.begin(),a.begin(),a.end());
+
+            
+        }
+        
+
+
     }
 
-    for(int i=0;i<graph.size();i++){
-        cout<<graph[i].parent<<"   :   "<<graph[i].pair[0]<<"-"<<graph[i].pair[1]<<&graph[i]<<"\n";
-    }
+for(int i=0;i<graph.size();i++)
+{
+     details(graph[i]);
 
+}   
     return 0;
     
 
