@@ -3,17 +3,14 @@
 #include "math.h"
 #include <string>
 #include<vector>
-
+#include "stack.h"
 #define MAX 1000
 using namespace std;
 
 
-//char eq[]="(((x)+(6))*(((x)^(2))+(1)))";
-char eq[]="(((x)+(4.00))*((x)^(2)))";
+char eq[]="(((x)+(6))*(((x)^(2))+(1)))";
+//char eq[]="(((x)+(4.00))*((x)^(2)))";
 
-struct diffTree{
-    float diff;
-};
 struct node
 {  
     
@@ -26,11 +23,7 @@ struct node
     int isleaf;
 };
 
-struct treeNode{
-
-};
 void details(struct node  n){
-    //cout<<"myself :"<<&n<<endl;
     printf("parent :%p\n",n.parent);
     cout <<"pair : " << n.pair[0]<<" - "<<n.pair[1]<<endl<<"op : "<<n.op<<endl<<"val : "<<n.val<<endl<<"diff :"<<n.diff<<endl;
 
@@ -39,60 +32,6 @@ void details(struct node  n){
     cout<<"\n";
 }
 
-class Stack {
-    int top;
-
-
-public:
-    int a[MAX]; // Maximum size of Stack
-
-    Stack() { top = -1; }
-    bool push(int x);
-    int pop();
-    int peek();
-    bool isEmpty();
-};
-
-bool Stack::push(int x)
-{
-    if (top >= (MAX - 1)) {
-        cout << "Stack Overflow";
-        return false;
-    }
-    else {
-        a[++top] = x;
-        //cout << x << " pushed into stack\n";
-        return true;
-    }
-}
-
-int Stack::pop()
-{
-    if (top < 0) {
-        cout << "Stack Underflow";
-        return 0;
-    }
-    else {
-        int x = a[top--];
-        return x;
-    }
-}
-int Stack::peek()
-{
-    if (top < 0) {
-        cout << "Stack is Empty";
-        return 0;
-    }
-    else {
-        int x = a[top];
-        return x;
-    }
-}
-
-bool Stack::isEmpty()
-{
-    return (top < 0);
-}
 
 vector<vector<int>> re(int index){
    
