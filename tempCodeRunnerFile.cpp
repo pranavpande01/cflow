@@ -1,31 +1,41 @@
+
 #include <iostream>
-#include <map>
+#include "math.h"
 #include <string>
 #include<vector>
+
 #define MAX 1000
 using namespace std;
 
 
-char eq[]="(((x)+(6))*(((x)^(2))+(1)))";
+//char eq[]="(((x)+(6))*(((x)^(2))+(1)))";
+char eq[]="(((x)+(4.00))*((x)^(2)))";
 
-
+struct diffTree{
+    float diff;
+};
 struct node
 {  
+    
     struct node* parent;
     vector<int> pair;
     char op;
     vector<struct node*> children;
     float diff;
+    float val;
+    int isleaf;
 };
 
 struct treeNode{
 
 };
 void details(struct node  n){
-    printf("%p",n.parent);
-    cout <<" : " << n.pair[0]<<" - "<<n.pair[1]<<" : "<<n.op<<" : ";
+    //cout<<"myself :"<<&n<<endl;
+    printf("parent :%p\n",n.parent);
+    cout <<"pair : " << n.pair[0]<<" - "<<n.pair[1]<<endl<<"op : "<<n.op<<endl<<"val : "<<n.val<<endl<<"diff :"<<n.diff<<endl;
 
-    for(int i=0;i<n.children.size();i++) cout<<n.children[i]<<" , ";
+    for(int i=0;i<n.children.size();i++) cout<<"children : "<<n.children[i]<<endl;
+    cout<<"isleaf: "<<n.isleaf<<endl;
     cout<<"\n";
 }
 
@@ -112,14 +122,54 @@ vector<vector<int>> re(int index){
     return pairs;
 }
 
+float diff(struct node n1, struct node n2,char op){
+    
+    float diff;
+    switch (op)
+    {
+    case '^':
+        diff=pow(n1.val,n2.val-1)*n2.val;
+        break;
+    case '+':
+        diff=n1.diff+n2.diff;
+        break;
+    case '*':
+        diff=(n1.diff*n2.val)+(n2.diff*n1.val);
+        break;
+    default:
+        break;
+    }
+    return diff;
+}
+
+float val(struct node n1, struct node n2,char op){
+    
+    float val;
+    switch (op)
+    {
+    case '^':
+        val=pow(n1.val,n2.val);
+        break;
+    case '+':
+        val=n1.val+n2.val;
+        break;
+    case '*':
+        val=(n1.val*n2.val);
+        break;
+    default:
+        break;
+    }
+    return val;
+}
 
 vector<struct node> makeHeirarachyGraph(){
     vector<struct  node> graph;
     vector<vector<int>> pairs=re(0);
-
+    float x=1.2;
+    
 // populating
     for(int i=0;i<pairs.size();i++){
-        struct node temp={NULL, pairs[i],'^',{NULL},0};
+        struct node temp={NULL, pairs[i],'_',{NULL},0,0,0};
         vector<struct node> temp_={temp};
         graph.insert(graph.end(),temp_.begin(),temp_.end());
     }
@@ -186,7 +236,7 @@ vector<struct node> makeHeirarachyGraph(){
         
     }
         
-        
+    
     i=0;
     while(i<graph.size()){
             if (graph[i].children[0] !=NULL){
@@ -197,8 +247,92 @@ vector<struct node> makeHeirarachyGraph(){
         
     }
 
+    i=0;
+    while(i<graph.size()) {
+    if(graph[i].children[0] ==NULL) graph[i].isleaf=1;
+    i++;
+    }
+
+    i=0;
+    while(i<graph.size()){
+        if(graph[i].isleaf) {
+
+            if(eq[graph[i].pair[0]+1]=='x') {
+                graph[i].val=x;
+                graph[i].diff=1;
+                }
+            else {
+                graph[i].val=stof(string(&eq[graph[i].pair[0]+1],&eq[graph[i].pair[1]]));
+                graph[i].diff=0;
+                }
+            
+        }
+        /*
+        switch (graph[i].op)
+        {
+        case '*':
+            graph[i].diff=((graph[i].children[0]->diff)*(graph[i].children[1]->val))+((graph[i].children[1]->diff)*(graph[i].children[0]->val));
+            break;
+        case '+':
+            graph[i].diff=(graph[i].children[0]->diff)+(graph[i].children[1]->diff);
+            break;
+        case '^':
+            //graph[i].diff=(graph[i].children[0]->diff)*(int(graph[i].children[1])-1);
+            break;
+        
+        default:
+            break;
+        }
+        */
+        i++;
+
+        
+    }
+    i=0;
+    while(i<graph.size()){
+        if(graph[i].isleaf){
+            struct node * curr=graph[i].parent;
+            while (curr !=NULL)
+            {
+                
+                curr->val=val(*curr->children[0],*curr->children[1],curr->op);;
+                //cout<<curr<<endl;
+                //details(*curr);
+                curr=curr->parent;
+                //cout<<"lala\n";
+                //j++;
+
+            }
+            
+            
+        }
+        i++;
+    }
+
+    i=0;
+    while(i<graph.size()){
+        if(graph[i].isleaf){
+            struct node * curr=graph[i].parent;
+            while (curr !=NULL)
+            {
+                
+                curr->diff=diff(*curr->children[0],*curr->children[1],curr->op);;
+                //cout<<curr<<endl;
+                //details(*curr);
+                curr=curr->parent;
+                //cout<<"lala\n";
+                //j++;
+
+            }
+            
+            
+        }
+        i++;
+    }
+      
     return graph;
 }
+
 
 
 int main()
@@ -209,11 +343,13 @@ int main()
     int i=0;
     while(i<graph.size()){
        details(graph[i]);
+       //cout<<graph[i].val<<endl;
+
         i++;
     }
-   
-   
     return 0;
-   
+   //  int num = lexical_cast<int>("1234");
+
 
 }
+

@@ -3,6 +3,8 @@
         "stdio.h": "c",
         "vector": "cpp",
         "iostream": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "xstring": "cpp",
+        "string": "cpp"
     }
 }
