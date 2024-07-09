@@ -5,7 +5,7 @@ class Stack {
 
 
 public:
-    int a[MAX]; // Maximum size of Stack
+    int a[MAX]; 
 
     Stack() { top = -1; }
     bool push(int x);
@@ -17,12 +17,10 @@ public:
 bool Stack::push(int x)
 {
     if (top >= (MAX - 1)) {
-        //cout << "Stack Overflow";
         return false;
     }
     else {
         a[++top] = x;
-        //cout << x << " pushed into stack\n";
         return true;
     }
 }
@@ -30,7 +28,6 @@ bool Stack::push(int x)
 int Stack::pop()
 {
     if (top < 0) {
-        //cout << "Stack Underflow";
         return 0;
     }
     else {
@@ -41,7 +38,6 @@ int Stack::pop()
 int Stack::peek()
 {
     if (top < 0) {
-        //cout << "Stack is Empty";
         return 0;
     }
     else {
